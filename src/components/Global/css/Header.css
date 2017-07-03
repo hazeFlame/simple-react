@@ -1,0 +1,32 @@
+.Logo img {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.Header {
+  background-color: #222;
+  height: 40px;
+  color: white;
+  line-height: 40px;
+}
+
+.menu{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.menu li{
+  display: inline-block;
+  padding: 0 20px;
+}
+.menu li a{
+  color: #ccc;
+  transition: .4s all ease;
+}
+.menu li a:hover{
+  color: #fff;
+}
+
+.Footer{
+  text-align: center;
+}
