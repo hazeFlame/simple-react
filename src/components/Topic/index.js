@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { AxiosTopicContent } from '../../api/index'
+import './index.less'
 
 class Topic extends Component {
   constructor(props) {
@@ -12,23 +13,26 @@ class Topic extends Component {
   async componentDidMount(props) {
     const { match } = this.props
     try {
-      console.log(match.params.id)
-      let content = await AxiosTopicContent(match.params.id)
+      let topic_id = match.params.id;
+      let content = await AxiosTopicContent(topic_id)
       this.setState({content: content.data})
     } catch (e) {
       console.log(e);
     }
   }
 
-
   render() {
     const { content } = this.state
-
     return (
       <div className="Topic">
         <div>
-          <img src={content.author.avatar_url}/>
+          {
+            content.author ? (
+              <img className="avatar_url" src={content.author.avatar_url} />
+            ):null
+          }
         </div>
+        <div className="topic_content" dangerouslySetInnerHTML={{ __html:content.content}} />
       </div>
     )
   }
