@@ -8,6 +8,7 @@ import About from '../components/About'
 import Contact from '../components/Contact'
 import Home from '../components/Home'
 import Topic from '../components/Topic'
+import User from '../components/User'
 import Page404 from '../components/Page404'
 
 const AppRoutes = () => {
@@ -18,6 +19,7 @@ const AppRoutes = () => {
         <Route exact path="/all/" component={About} />
         <Route exact path="/good/" component={Contact} />
         <Route exact path="/topics/:id" component={Topic}/>
+        <Route exact path="/user/:loginname" component={User}/>
         <Route component={Page404} />
       </Switch>
     </App>

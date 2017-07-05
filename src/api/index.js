@@ -25,3 +25,8 @@ export const AxiosTopicContent = (topic_id) =>{
   let path = `topic/${topic_id}`
   return get(path)
 }
+
+export const AxiosUserLoginname = (loginname) =>{
+  let path = `user/${loginname}`;
+  return get(path)
+}
