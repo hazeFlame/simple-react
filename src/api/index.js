@@ -16,9 +16,10 @@ const get = (path,query) =>{
 }
 
 
-export const AxiosIndexTopic = () =>{
+export const AxiosIndexTopic = (tab) =>{
   let path = 'topics'
-  return get(path)
+  let query = `?tab=${tab}`
+  return get(path,query)
 }
 
 export const AxiosTopicContent = (topic_id) =>{

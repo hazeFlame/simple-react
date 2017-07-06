@@ -19,7 +19,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Header title="Hello React" items={ items } />
+        <Header items={ items } />
         <Content body={ children } />
         <Footer copyright="&copy; React 2017" />
       </div>

@@ -8,12 +8,11 @@ import './css/Header.css';
 
 class Header extends Component {
   static PropTypes = {
-    title: PropTypes.string.isRequored,
     items: PropTypes.array.isRequored
   };
 
   render() {
-    const { title, items } = this.props;
+    const { items } = this.props;
 
     return (
       <div className="Header">

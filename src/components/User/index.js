@@ -67,6 +67,17 @@ class Topic extends Component {
       let loginname = match.params.loginname;
       let content = await AxiosUserLoginname(loginname);
       this.setState({content: content.data})
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async componentWillUpdate(props){
+    const { match } = this.props
+    try {
+      let loginname = match.params.loginname;
+      let content = await AxiosUserLoginname(loginname);
+      this.setState({content: content.data})
       console.log(this.state.content);
     } catch (e) {
       console.log(e);
