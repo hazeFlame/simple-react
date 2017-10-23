@@ -44,7 +44,7 @@ class Topic extends Component {
       let topic_id = match.params.id;
       let content = await AxiosTopicContent(topic_id);
       this.setState({content: content.data})
-      console.log(this.state.content);
+      // console.log(this.state.content);
     } catch (e) {
       console.log(e);
     }

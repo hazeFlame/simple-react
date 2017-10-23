@@ -13,7 +13,6 @@ class App extends Component {
   static PropTypes = {
     children: PropTypes.object.isRequired
   }
-
   render() {
     const { children } = this.props;
 

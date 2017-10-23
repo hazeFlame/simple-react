@@ -12,7 +12,7 @@ export default [
     url: '/good/'
   },
   {
-    title:'分享',
+    title:'登录',
     url: '/share/'
   },
   {

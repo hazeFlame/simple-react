@@ -1,18 +1,22 @@
-ul{
-  li{
-    display: flex;
-    margin-bottom: 20px;
-    img{
-      width: 30px;
-      height: 30px;
-      border-radius: 5px;
-    }
-    i{
-      width: 50px;
-      margin-left: 15px;
-    }
-    div{
-      flex-direction: column;
+.Home{
+  ul{
+    li{
+      display: flex;
+      margin-bottom: 20px;
+      align-items: center;
+      .tag{
+        width: 85px;
+        .ant-tag{
+          margin: 0 15px;
+        }
+      }
+      i{
+        width: 50px;
+        margin-left: 15px;
+      }
+      div{
+        flex-direction: column;
+      }
     }
   }
 }

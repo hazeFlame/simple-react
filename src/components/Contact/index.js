@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 let Noitem = (props) =>{
   return <p>这里什么都没有</p>
 }

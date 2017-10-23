@@ -26,7 +26,11 @@
 .menu li a:hover{
   color: #fff;
 }
-
+.Content{
+  min-width: 1000px;
+  width: 1000px;
+  margin: 0 auto;
+}
 .Footer{
   text-align: center;
 }
