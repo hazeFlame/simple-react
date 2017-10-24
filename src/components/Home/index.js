@@ -10,20 +10,29 @@ import './home.less'
 // import filter from '../../data/tab.js'
 // import tabs from '../../data/tabs.js'
 
+
+let scrollTop = 0
+
 let Gettags = props =>{
-    const { tag } = props
-    if (tag === 'share'){
-      return <Tag color="purple">分享</Tag>
-    } else if (tag === 'ask') {
-      return <Tag color="pink">问答</Tag>
-    } else if (tag === 'job') {
-      return <Tag color="green">招聘</Tag>
-    } else if (tag === 'good') {
-      return <Tag color="blue">精华</Tag>
-    } else{
-      return <Tag color="red">其他</Tag>
+    const { tag, top } = props
+    if( top ){
+      return <Tag color="orange">顶置</Tag>
+    }else{
+      if (tag === 'share') {
+        return <Tag color="purple">分享</Tag>
+      } else if (tag === 'ask') {
+        return <Tag color="pink">问答</Tag>
+      } else if (tag === 'job') {
+        return <Tag color="green">招聘</Tag>
+      } else if (tag === 'good') {
+        return <Tag color="blue">精华</Tag>
+      } else {
+        return <Tag color="red">其他</Tag>
+      }
     }
   }
+
+
 
 class Home extends Component {
   static PropTypes = {
@@ -49,15 +58,34 @@ class Home extends Component {
     } catch (e) {
       console.log(e);
     }
+
+    if (this.contentNode) {
+      this.contentNode.addEventListener('scroll', this.onScrollHandle.bind(this));
+    }
   }
 
+  componentWillUnmount() {
+    if (this.contentNode) {
+      this.contentNode.removeEventListener('scroll', this.onScrollHandle.bind(this));
+    }
+  }
+
+
+
+  onScrollHandle(event) {
+    const clientHeight = event.target.clientHeight
+    const scrollHeight = event.target.scrollHeight
+    const scrollTop = event.target.scrollTop
+    const isBottom = (clientHeight + scrollTop === scrollHeight)
+    console.log('is bottom:' + isBottom)
+  }
 
 
   render() {
     const items = this.state.posts;
 
     return (
-      <div className="Home">
+      <div className="Home" ref={node => this.contentNode = node}>
         {/* {<div>
           {
             tabs && tabs.map((v,key) =>(
@@ -75,9 +103,13 @@ class Home extends Component {
           {items && items.map((v, key) => (
             <li key={key}>
               {/* <img title={v.author.loginname} src={v.author.avatar_url}/> */}
-              <Avatar title={v.author.loginname} src={v.author.avatar_url} />
+              <Link to={{
+                pathname: `/user/${v.author.loginname}`,
+              }}>
+                <Avatar title={v.author.loginname} src={v.author.avatar_url} />
+              </Link>
               <div className="tag">
-                <Gettags tag={v.tab} />
+                <Gettags tag={v.tab} top={v.top} />
               </div>
               <div>
                 <div>
