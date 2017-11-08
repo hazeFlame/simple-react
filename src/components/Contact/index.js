@@ -61,12 +61,13 @@ class Contact extends Component {
         <Ifnoitem islength = {items.length} />
 
         <ul>
-          {items && items.map((v,key) =>
+          {
+            items && items.map((v,key) =>
             <li key={key}>
               {v}
               <button onClick={ key=>this.removeItems(key) }>删除</button>
-            </li>
-          )}
+            </li>)
+          }
         </ul>
       </div>
     )

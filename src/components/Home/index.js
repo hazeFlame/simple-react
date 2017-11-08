@@ -13,6 +13,8 @@ import './home.less'
 
 let scrollTop = 0
 
+
+
 let Gettags = props =>{
     const { tag, top } = props
     if( top ){
@@ -47,7 +49,10 @@ class Home extends Component {
 
     // this.tabclick = this.tabclick.bind(this)
   }
-
+  routerpush() {
+    const { history } = this.props
+    history.push('/share/')
+  }
   
 
   // 生命周期
@@ -70,8 +75,6 @@ class Home extends Component {
     }
   }
 
-
-
   onScrollHandle(event) {
     const clientHeight = event.target.clientHeight
     const scrollHeight = event.target.scrollHeight
@@ -83,7 +86,6 @@ class Home extends Component {
 
   render() {
     const items = this.state.posts;
-
     return (
       <div className="Home" ref={node => this.contentNode = node}>
         {/* {<div>
@@ -99,6 +101,7 @@ class Home extends Component {
             ))
           }
         </div>} */}
+        <div onClick={() => this.routerpush()}>12413231123231<br />asdasd</div>
         <ul>
           {items && items.map((v, key) => (
             <li key={key}>

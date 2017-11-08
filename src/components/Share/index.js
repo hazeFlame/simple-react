@@ -9,8 +9,38 @@ import {
 } from 'antd';
 import './islogin.less'
 const FormItem = Form.Item;
+
+let Num = props => {
+    const { num } = props
+    return (
+        <div>
+            {
+                num && num.map((v,key) =>(
+                    <span key={key}>{v}</span>
+                ))
+            }
+        </div>
+    )
+}
+
+let Aaaa = props =>{
+    const { num, alert1 } = props
+    return (
+        <div onClick={() => alert1( num ) }>{ num }</div>
+    )
+}
+
 class Contact extends Component {
     
+    constructor(props) {
+        super();
+        this.state = {
+            num:[1,2,3,4,5,6,7,8,9,7,8,9,8,4,5,6,8,9,7,4,5,6,1]
+        };
+        this.alert1 = this.alert1.bind(this)
+
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -19,10 +49,33 @@ class Contact extends Component {
             }
         });
     }
+
+    alert1(num){
+        console.log(num)
+    }
+ 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const number = [1, 2, 3, 4, 5];
+        
         return (
            <div className="login">
+                {
+                    number && number.map((v, key) => (
+                        <Aaaa alert1={() => this.alert1(this)} num={v} key={key}></Aaaa>
+                    ))
+                }
+
+
+                <div>
+                    {number && number.map((v,key) =>(
+                        <span onClick={() => this.alert1(v)} key={ key }>{v}</span>
+                    ))}
+                </div>
+                
+
+                <Num num = {this.state.num} />
+
                 <Form onSubmit={this.handleSubmit} className="login-form">
                     <FormItem>
                         {getFieldDecorator('userName', {
