@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import './user.less'
 
 let Recenttopics = props =>{
-  const recenttopics = props.recenttopics;
+  const { recenttopics } = props;
   return (
     <ul>
       {
@@ -61,6 +61,8 @@ class Topic extends Component {
     };
   }
 
+  
+
   async componentDidMount(props) {
     const { match } = this.props
     try {
@@ -72,13 +74,12 @@ class Topic extends Component {
     }
   }
 
-  async componentWillUpdate(props){
-    const { match } = this.props
+  async componentWillReceiveProps(nextProps){
+    const { match } = nextProps
     try {
       let loginname = match.params.loginname;
       let content = await AxiosUserLoginname(loginname);
       this.setState({content: content.data})
-      console.log(this.state.content);
     } catch (e) {
       console.log(e);
     }

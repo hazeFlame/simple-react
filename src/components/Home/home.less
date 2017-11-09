@@ -1,21 +1,31 @@
 .Home{
-  ul{
-    li{
-      display: flex;
+  margin-top: 40px;
+  .navtabs{
+    a{
+      display: inline-block;
+      line-height: 32px;
+      height: 32px;
+      font-size: 14px;
+      text-align: center;
+      background: #f5f5f5;
+      margin-right: 1em;
+      margin-bottom: 1em;
+      border-radius: 6px;
+      padding: 0 20px;
+    }
+  }
+  div{
+    .ant-card{
       margin-bottom: 20px;
-      align-items: center;
-      .tag{
-        width: 85px;
-        .ant-tag{
-          margin: 0 15px;
+      .custom-image{
+        display: flex;
+        align-items: center;
+        .tag{
+          margin:0 15px;
         }
       }
-      i{
-        width: 50px;
-        margin-left: 15px;
-      }
-      div{
-        flex-direction: column;
+      .ant-card-body{
+        padding: 15px 20px;
       }
     }
   }

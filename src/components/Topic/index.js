@@ -1,32 +1,35 @@
 import React, { Component } from 'react';
 import { AxiosTopicContent } from '../../api/index'
 import { Link } from 'react-router-dom'
+import { Avatar, Card, Icon } from 'antd'
 import './index.less'
 
 let Replies = (props) =>{
   const replies = props.replies;
   return (
-    <ul>
+    <div className="Card">
       {
         replies && replies.map((v,key) =>
-          <li key={key} className="replies_name">
-            <div>
+          <Card key={key} className="replies_name">
+            <div className="custom-image">
               <Link to={{
                 pathname: `/user/${v.author.loginname}`,
               }}>
-                <img src={v.author.avatar_url} />
-                <span>{v.author.loginname}</span>
+                <Avatar className="avatar_url" src={v.author.avatar_url} />
+                <span className="author_name">{v.author.loginname}</span>
               </Link>
-              <i>{key+1}楼</i>---
-              <em>{v.ups.length}赞</em>
+              <div className="indexkey">
+                <em>#{key + 1}</em>
+                <Icon type="like" />{v.ups.length}
+              </div>
             </div>
-            <div>
-              <p className="topic_content" dangerouslySetInnerHTML={{ __html:v.content}} />
+            <div className="custom-card">
+              <div className="topic_content" dangerouslySetInnerHTML={{ __html: v.content }}></div>
             </div>
-          </li>
+          </Card>
         )
       }
-    </ul>
+    </div>
   )
 }
 
@@ -51,16 +54,20 @@ class Topic extends Component {
 
   render() {
     const { content } = this.state
+    console.log(content)
     return (
       <div className="Topic">
-        <div>
+        <div className= "Topic_Avatar">
           {
             content.author ? (
-              <img className="avatar_url" src={content.author.avatar_url} />
+              <Avatar className="avatar_url" src={content.author.avatar_url} />
             ):null
           }
         </div>
-        <div className="topic_content" dangerouslySetInnerHTML={{ __html:content.content}} />
+        <div className="Topic_content" dangerouslySetInnerHTML={{ __html:content.content}} />
+        <div className="Topic_count">
+          <h4>{content.reply_count}条回复</h4>
+        </div>
         <Replies replies = {content.replies}/>
       </div>
     )

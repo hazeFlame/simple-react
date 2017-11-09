@@ -3,133 +3,127 @@ import { AxiosIndexTopic } from '../../api/index'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {
-  Avatar,
-  Tag,
+    Avatar,
+    Tag,
+    Card,
+    Tooltip,
 } from 'antd';
 import './home.less'
-// import filter from '../../data/tab.js'
-// import tabs from '../../data/tabs.js'
+import tabs from '../../data/tabs'
 
-
-let scrollTop = 0
-
-
-
-let Gettags = props =>{
-    const { tag, top } = props
-    if( top ){
-      return <Tag color="orange">顶置</Tag>
-    }else{
-      if (tag === 'share') {
-        return <Tag color="purple">分享</Tag>
-      } else if (tag === 'ask') {
-        return <Tag color="pink">问答</Tag>
-      } else if (tag === 'job') {
-        return <Tag color="green">招聘</Tag>
-      } else if (tag === 'good') {
+let Gettags = props => {
+    const { tag, top, good } = props
+    if (top) {
+        return <Tag color="orange">顶置</Tag>
+    }else if ( good ){
         return <Tag color="blue">精华</Tag>
-      } else {
-        return <Tag color="red">其他</Tag>
-      }
+    } else {
+        if (tag === 'share') {
+            return <Tag color="purple">分享</Tag>
+        } else if (tag === 'ask') {
+            return <Tag color="pink">问答</Tag>
+        } else if (tag === 'job') {
+            return <Tag color="green">招聘</Tag>
+        }else {
+            return <Tag color="red">其他</Tag>
+        }
     }
-  }
+}
+
+let Menudate = props => {
+    const { tabs } = props
+    return (
+        <div className="navtabs">
+            {
+                tabs && tabs.map((v, key) => (
+                    <Tooltip key={key} placement="top" title={v.title}>
+                        <Link  to={{
+                            pathname: '/',
+                            search:`tab=${v.url}`
+                        }}>
+                            {v.title}
+                        </Link>
+                    </Tooltip>
+                ))
+            }
+        </div>
+    )
+}
 
 
 
 class Home extends Component {
-  static PropTypes = {
-    tabs: PropTypes.array.isRequored
-  };
-
-  constructor(props) {
-    super();
-    this.state = {
-      posts: []
+    static PropTypes = {
+        tabs: PropTypes.array.isRequored
     };
 
-    // this.tabclick = this.tabclick.bind(this)
-  }
-  routerpush() {
-    const { history } = this.props
-    history.push('/share/')
-  }
-  
-
-  // 生命周期
-  async componentDidMount() {
-    try {
-      let posts = await AxiosIndexTopic('all')
-      this.setState({posts: posts.data})
-    } catch (e) {
-      console.log(e);
+    constructor(props) {
+        super();
+        this.state = {
+            posts: []
+        };
     }
 
-    if (this.contentNode) {
-      this.contentNode.addEventListener('scroll', this.onScrollHandle.bind(this));
+    async Axios(tab = 'all'){
+        try {
+            let posts = await AxiosIndexTopic(tab)
+            this.setState({ posts: posts.data })
+        } catch (e) {
+            console.log(e);
+        }
     }
-  }
 
-  componentWillUnmount() {
-    if (this.contentNode) {
-      this.contentNode.removeEventListener('scroll', this.onScrollHandle.bind(this));
+    getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(window.location.search);
+        return results == null ? "" : decodeURIComponent(results[1]);
     }
-  }
 
-  onScrollHandle(event) {
-    const clientHeight = event.target.clientHeight
-    const scrollHeight = event.target.scrollHeight
-    const scrollTop = event.target.scrollTop
-    const isBottom = (clientHeight + scrollTop === scrollHeight)
-    console.log('is bottom:' + isBottom)
-  }
+    // dom生成之前
+    componentWillMount(props) {
+        this.Axios(this.getParameterByName('tab'))
+    }
 
+    // 改变state
+    componentWillReceiveProps(nextProps){
+        this.Axios(this.getParameterByName('tab'))
+    }
 
-  render() {
-    const items = this.state.posts;
-    return (
-      <div className="Home" ref={node => this.contentNode = node}>
-        {/* {<div>
-          {
-            tabs && tabs.map((v,key) =>(
-              <span key = {key}>
-                <Link to={{
-                    search: `?tab=${v.url}`,
-                }}>
-                  {v.title}
-                </Link>
-              </span>
-            ))
-          }
-        </div>} */}
-        <div onClick={() => this.routerpush()}>12413231123231<br />asdasd</div>
-        <ul>
-          {items && items.map((v, key) => (
-            <li key={key}>
-              {/* <img title={v.author.loginname} src={v.author.avatar_url}/> */}
-              <Link to={{
-                pathname: `/user/${v.author.loginname}`,
-              }}>
-                <Avatar title={v.author.loginname} src={v.author.avatar_url} />
-              </Link>
-              <div className="tag">
-                <Gettags tag={v.tab} top={v.top} />
-              </div>
-              <div>
+    render() {
+        const items = this.state.posts;
+        return (
+            <div className="Home" ref={node => this.contentNode = node}>
+                <Menudate tabs={tabs}></Menudate>
                 <div>
-                  <span title="回复数">{v.reply_count}</span>/<span title="阅读数">{v.visit_count}</span>
-                  <Link to={{
-                    pathname: `/topics/${v.id}`
-                  }}>
-                    <p title={v.title}>{v.title}</p>
-                  </Link>
+                    {items && items.map((v, key) => (
+                        <Card key={key} >
+                            <div className="custom-image">
+                                <Link to={{
+                                    pathname: `/user/${v.author.loginname}`,
+                                }}>
+                                    <Avatar title={v.author.loginname} src={v.author.avatar_url} />
+                                </Link>
+                                <div className="tag">
+                                    <Gettags tag={v.tab} top={v.top} good={v.good} />
+                                </div>
+                                <div className="reply_count">
+                                    <span title="回复数">{v.reply_count}</span>/<span title="阅读数">{v.visit_count}</span>
+                                </div>
+                            </div>
+                            <div className="custom-card">
+                                <Link to={{
+                                    pathname: `/topics/${v.id}`
+                                }}>
+                                    <p title={v.title}>{v.title}</p>
+                                </Link>
+                            </div>
+                        </Card>
+                    ))}
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
+            </div>
+        )
+    }
 }
 
 export default Home;

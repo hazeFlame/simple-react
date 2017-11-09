@@ -1,6 +1,5 @@
 import { get } from './api'
 
-
 export const AxiosIndexTopic = (tab) =>{
   let path = 'topics'
   let query = `?tab=${tab}`
