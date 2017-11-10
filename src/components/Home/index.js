@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { AxiosIndexTopic } from '../../api/index'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+// import { OverPack } from 'rc-scroll-anim';
+// import TweenOne from 'rc-tween-one';
+import QueueAnim from 'rc-queue-anim';
 import {
     Avatar,
     Tag,
@@ -28,12 +31,32 @@ let Gettags = props => {
             return <Tag color="red">其他</Tag>
         }
     }
+
+    // switch (props) {
+    //     case props.top === true:
+    //         return <Tag color="orange">顶置</Tag>;
+    //         break;
+    //     case props.good === true:
+    //         return <Tag color="blue">精华</Tag>;
+    //         break;
+    //     case props.tag === 'share':
+    //         return <Tag color="purple">分享</Tag>;
+    //         break;
+    //     case props.tag === 'ask':
+    //         return <Tag color="pink">问答</Tag>;
+    //         break;
+    //     case props.tag === 'job':
+    //         return <Tag color="green">招聘</Tag>;
+    //         break;
+    //     default:
+    //         return <Tag color="red">其他</Tag>;
+    // }
 }
 
 let Menudate = props => {
     const { tabs } = props
     return (
-        <div className="navtabs">
+        <QueueAnim type={['top']} className="navtabs">
             {
                 tabs && tabs.map((v, key) => (
                     <Tooltip key={key} placement="top" title={v.title}>
@@ -46,7 +69,7 @@ let Menudate = props => {
                     </Tooltip>
                 ))
             }
-        </div>
+        </QueueAnim>
     )
 }
 
@@ -80,12 +103,10 @@ class Home extends Component {
         return results == null ? "" : decodeURIComponent(results[1]);
     }
 
-    // dom生成之前
     componentWillMount(props) {
         this.Axios(this.getParameterByName('tab'))
     }
 
-    // 改变state
     componentWillReceiveProps(nextProps){
         this.Axios(this.getParameterByName('tab'))
     }
@@ -95,8 +116,9 @@ class Home extends Component {
         return (
             <div className="Home" ref={node => this.contentNode = node}>
                 <Menudate tabs={tabs}></Menudate>
-                <div>
-                    {items && items.map((v, key) => (
+                <QueueAnim>
+                    {
+                        items && items.map((v, key) => (
                         <Card key={key} >
                             <div className="custom-image">
                                 <Link to={{
@@ -118,9 +140,9 @@ class Home extends Component {
                                     <p title={v.title}>{v.title}</p>
                                 </Link>
                             </div>
-                        </Card>
-                    ))}
-                </div>
+                        </Card>))
+                    }
+                </QueueAnim>
             </div>
         )
     }
