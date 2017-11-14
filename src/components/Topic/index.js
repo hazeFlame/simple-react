@@ -3,6 +3,9 @@ import { AxiosTopicContent } from '../../api/index'
 import { Link } from 'react-router-dom'
 import { Avatar, Card, Icon } from 'antd'
 import './index.less'
+import { OverPack } from 'rc-scroll-anim';
+import TweenOne from 'rc-tween-one';
+import QueueAnim from 'rc-queue-anim';
 
 let Replies = (props) =>{
   const replies = props.replies;
@@ -10,23 +13,25 @@ let Replies = (props) =>{
     <div className="Card">
       {
         replies && replies.map((v,key) =>
-          <Card key={key} className="replies_name">
-            <div className="custom-image">
-              <Link to={{
-                pathname: `/user/${v.author.loginname}`,
-              }}>
-                <Avatar className="avatar_url" src={v.author.avatar_url} />
-                <span className="author_name">{v.author.loginname}</span>
-              </Link>
-              <div className="indexkey">
-                <em>#{key + 1}</em>
-                <Icon type="like" />{v.ups.length}
+          <div key={key}>
+            <Card className="replies_name">
+              <div className="custom-image">
+                <Link to={{
+                  pathname: `/user/${v.author.loginname}`,
+                }}>
+                  <Avatar className="avatar_url" src={v.author.avatar_url} />
+                  <span className="author_name">{v.author.loginname}</span>
+                </Link>
+                <div className="indexkey">
+                  <em>#{key + 1}</em>
+                  <Icon type="like" />{v.ups.length}
+                </div>
               </div>
-            </div>
-            <div className="custom-card">
-              <div className="topic_content" dangerouslySetInnerHTML={{ __html: v.content }}></div>
-            </div>
-          </Card>
+              <div className="custom-card">
+                <div className="topic_content" dangerouslySetInnerHTML={{ __html: v.content }}></div>
+              </div>
+            </Card>
+          </div>
         )
       }
     </div>

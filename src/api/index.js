@@ -1,8 +1,8 @@
 import { get } from './api'
 
-export const AxiosIndexTopic = (tab) =>{
+export const AxiosIndexTopic = (tab, page, limit) =>{
   let path = 'topics'
-  let query = `?tab=${tab}`
+  let query = `?tab=${tab}&page=${page}&limit=${limit}`
   return get(path,query)
 }
 

@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { AxiosIndexTopic } from '../../api/index'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-// import { OverPack } from 'rc-scroll-anim';
-// import TweenOne from 'rc-tween-one';
 import QueueAnim from 'rc-queue-anim';
 import {
     Avatar,
@@ -31,26 +29,6 @@ let Gettags = props => {
             return <Tag color="red">其他</Tag>
         }
     }
-
-    // switch (props) {
-    //     case props.top === true:
-    //         return <Tag color="orange">顶置</Tag>;
-    //         break;
-    //     case props.good === true:
-    //         return <Tag color="blue">精华</Tag>;
-    //         break;
-    //     case props.tag === 'share':
-    //         return <Tag color="purple">分享</Tag>;
-    //         break;
-    //     case props.tag === 'ask':
-    //         return <Tag color="pink">问答</Tag>;
-    //         break;
-    //     case props.tag === 'job':
-    //         return <Tag color="green">招聘</Tag>;
-    //         break;
-    //     default:
-    //         return <Tag color="red">其他</Tag>;
-    // }
 }
 
 let Menudate = props => {
@@ -81,18 +59,23 @@ class Home extends Component {
     };
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {
-            posts: []
+            topicitem: [],
+            page: 1,
         };
     }
 
-    async Axios(tab = 'all'){
+    async AxiosTopic(tab = 'all', page = this.state.page, limit = '10'){
         try {
-            let posts = await AxiosIndexTopic(tab)
-            this.setState({ posts: posts.data })
-        } catch (e) {
-            console.log(e);
+            const { data } = await AxiosIndexTopic(tab, page, limit)
+            this.setState((prevState) =>{
+                return {
+                    topicitem: prevState.topicitem.concat(data)
+                }
+            })
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -102,45 +85,69 @@ class Home extends Component {
             results = regex.exec(window.location.search);
         return results == null ? "" : decodeURIComponent(results[1]);
     }
-
-    componentWillMount(props) {
-        this.Axios(this.getParameterByName('tab'))
+    
+    componentDidMount() {
+        let _this = this
+        window.addEventListener('scroll',function(){
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            let scrollheight = document.documentElement.scrollheight || document.body.scrollHeight;
+            // console.log(scrollTop, clientHeight, scrollheight)
+            if (scrollTop + clientHeight === scrollheight){
+                _this.setState((prevState) => {
+                    return {
+                        page: prevState.page+=1
+                    }
+                })
+                _this.AxiosTopic(_this.getParameterByName('tab'), _this.state.page)
+            }
+        })
     }
 
-    componentWillReceiveProps(nextProps){
-        this.Axios(this.getParameterByName('tab'))
+    componentWillMount() {
+        this.AxiosTopic(this.getParameterByName('tab'))
+    }
+
+    componentWillReceiveProps(){
+        this.setState({
+            page:1,
+            topicitem:[],
+        })
+        this.AxiosTopic(this.getParameterByName('tab'), 1)
     }
 
     render() {
-        const items = this.state.posts;
+        const { topicitem } = this.state;
         return (
-            <div className="Home" ref={node => this.contentNode = node}>
+            <div className="Home">
                 <Menudate tabs={tabs}></Menudate>
-                <QueueAnim>
+                <QueueAnim type={['left','right']}>
                     {
-                        items && items.map((v, key) => (
-                        <Card key={key} >
-                            <div className="custom-image">
-                                <Link to={{
-                                    pathname: `/user/${v.author.loginname}`,
-                                }}>
-                                    <Avatar title={v.author.loginname} src={v.author.avatar_url} />
-                                </Link>
-                                <div className="tag">
-                                    <Gettags tag={v.tab} top={v.top} good={v.good} />
+                        topicitem && topicitem.map((v, key) => (
+                            <div key={v.id}>
+                            <Card >
+                                <div className="custom-image">
+                                    <Link to={{
+                                        pathname: `/user/${v.author.loginname}`,
+                                    }}>
+                                        <Avatar title={v.author.loginname} src={v.author.avatar_url} />
+                                    </Link>
+                                    <div className="tag">
+                                        <Gettags tag={v.tab} top={v.top} good={v.good} />
+                                    </div>
+                                    <div className="reply_count">
+                                        <span title="回复数">{v.reply_count}</span>/<span title="阅读数">{v.visit_count}</span>
+                                    </div>
                                 </div>
-                                <div className="reply_count">
-                                    <span title="回复数">{v.reply_count}</span>/<span title="阅读数">{v.visit_count}</span>
+                                <div className="custom-card">
+                                    <Link to={{
+                                        pathname: `/topics/${v.id}`
+                                    }}>
+                                        <p title={v.title}>{v.title}</p>
+                                    </Link>
                                 </div>
-                            </div>
-                            <div className="custom-card">
-                                <Link to={{
-                                    pathname: `/topics/${v.id}`
-                                }}>
-                                    <p title={v.title}>{v.title}</p>
-                                </Link>
-                            </div>
-                        </Card>))
+                            </Card>
+                        </div>))
                     }
                 </QueueAnim>
             </div>

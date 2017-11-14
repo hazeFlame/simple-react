@@ -1,6 +1,12 @@
 .User{
   max-width: 1000px;
   margin:  0 auto;
+  .userinfo{
+    margin-top: 20px;
+    img{
+      width: 80px;
+    }
+  }
   .recenttopics{
     margin-top: 30px;
     h4{
@@ -8,13 +14,19 @@
       font-size: 20px;
       margin-bottom: 10px;
     }
-    li{
+    .recentitem{
       align-items: center;
-      img{
-        margin-right: 15px;
-      }
-      span{
-        font-size: 12px;
+      margin-bottom: 20px;
+      .ant-card-body{
+        display: flex;
+        align-items: center;
+        img{
+          margin-right: 15px;
+          width: 50px;
+        }
+        span{
+          font-size: 12px;
+        }
       }
     }
   }
