@@ -1,4 +1,4 @@
-import { get } from './api'
+import { get, post } from './api'
 
 export const AxiosIndexTopic = (tab, page, limit) =>{
   let path = 'topics'
@@ -14,4 +14,9 @@ export const AxiosTopicContent = (topic_id) =>{
 export const AxiosUserLoginname = (loginname) =>{
   let path = `user/${loginname}`;
   return get(path)
+}
+
+export const  AxiosLogin = (data) =>{
+  let path = 'accesstoken'
+  return post(path, data)
 }

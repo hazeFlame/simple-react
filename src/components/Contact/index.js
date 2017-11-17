@@ -37,9 +37,10 @@ class Contact extends Component {
     this._inputElement.value = ''
   }
 
-  removeItems(key){
+  removeItems(index){
     const Arrayitems = this.state.items;
-    Arrayitems.splice(key,1)
+    Arrayitems.splice(index,1)
+    console.log(index)
     this.setState({
       items: Arrayitems
     })
@@ -53,7 +54,7 @@ class Contact extends Component {
         <h1>Contact Page</h1>
         <form>
           <input
-            ref={a => this._inputElement = a}
+            ref={aaa => this._inputElement = aaa}
             placeholder="enter task" />
           <button type="button" onClick={ this.addItems }>add</button>
         </form>
@@ -62,10 +63,10 @@ class Contact extends Component {
 
         <ul>
           {
-            items && items.map((v,key) =>
-            <li key={key}>
+            items && items.map((v,index) =>
+              <li key={index}>
               {v}
-              <button onClick={ key=>this.removeItems(key) }>删除</button>
+              <button onClick={index => this.removeItems(index) }>删除</button>
             </li>)
           }
         </ul>

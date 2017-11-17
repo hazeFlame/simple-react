@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 
-import './css/Header.css';
 
 class Content extends Component {
   static PropTypes = {

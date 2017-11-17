@@ -92,7 +92,6 @@ class Home extends Component {
             let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
             let clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
             let scrollheight = document.documentElement.scrollheight || document.body.scrollHeight;
-            // console.log(scrollTop, clientHeight, scrollheight)
             if (scrollTop + clientHeight === scrollheight){
                 _this.setState((prevState) => {
                     return {

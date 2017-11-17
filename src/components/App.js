@@ -20,7 +20,7 @@ class App extends Component {
       <div className="App">
         <Header items={ items } />
         <Content body={ children } />
-        <Footer copyright="&copy; React 2017" />
+        <Footer copyright="&copy; React for CNodejs" />
       </div>
     );
   }

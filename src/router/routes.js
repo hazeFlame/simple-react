@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom'
 import App from '../components/App'
 import About from '../components/About'
 import Contact from '../components/Contact'
-import Share from '../components/Share'
+import Login from '../components/Login'
 import Home from '../components/Home'
 import Topic from '../components/Topic'
 import User from '../components/User'
@@ -19,7 +19,7 @@ const AppRoutes = () => {
         <Route exact path="/" component={Home} />
         <Route exact path="/all/" component={About} />
         <Route exact path="/good/" component={Contact} />
-        <Route exact path="/share/" component={Share} />
+        <Route exact path="/login/" component={Login} />
         <Route exact path="/topics/:id" component={Topic}/>
         <Route exact path="/user/:loginname" component={User}/>
         <Route component={Page404} />
