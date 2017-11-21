@@ -1,2 +1,2 @@
-# react cnode
-> react好有趣
+﻿# react cnode
+> mobx
