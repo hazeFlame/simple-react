@@ -1,18 +1,8 @@
 import React, { Component } from 'react';
-let Noitem = (props) =>{
-  return <p>这里什么都没有</p>
-}
-
-let Item = (props) =>{
-  return <p></p>
-}
 
 let Ifnoitem = (props)=>{
   const islength = props.islength;
-  if (islength) {
-    return <Item />;
-  }
-  return <Noitem />
+  return islength ? null : ( <p>这里什么都没有</p> )
 }
 
 class Contact extends Component {
@@ -51,7 +41,6 @@ class Contact extends Component {
 
     return (
       <div className="Contact">
-        <h1>Contact Page</h1>
         <form>
           <input
             ref={aaa => this._inputElement = aaa}
@@ -66,7 +55,7 @@ class Contact extends Component {
             items && items.map((v,index) =>
               <li key={index}>
               {v}
-              <button onClick={index => this.removeItems(index) }>删除</button>
+              <button onClick={() => this.removeItems(index) }>删除</button>
             </li>)
           }
         </ul>

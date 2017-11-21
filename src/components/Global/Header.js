@@ -6,21 +6,20 @@ import * as circle from '../../data/localstorage'
 import './css/Header.less';
 import { AxiosUserLoginname } from '../../api/index'
 import { observer } from "mobx-react";
-import { observable, computed } from 'mobx';
-import { StoreUser } from '../../store/headerlogin.js'
+import { observable } from 'mobx';
+import Store from "../../store/headerlogin"
 
-
-let IsLogin = (props) =>(
-  circle.getlocalstorage('token') ? (
-      <Popover placement="bottomRight" title={props.data.content.loginname} content={(
+let IsLogin = observer((props) =>(
+    circle.getlocalstorage('token') ? (
+      <Popover placement="bottomRight" title={circle.getlocalstorage('loginname')} content={(
         <div>
-          <p>积分：{props.data.content.score}</p>
-          <Button style={{ marginTop: 10 }} type="danger" onClick={props.loginout}>登出</Button>
-        </div>
-      )} trigger="hover">
-        <Avatar src={circle.getlocalstorage('avatar_url')} />
-      </Popover>
-  ):(
+          {!Store.count ? <p>积分：{props.data.content.score}</p> : <p>积分：{Store.count}</p>  }
+            <Button style={{ marginTop: 10 }} type="danger" onClick={props.loginout}>登出</Button>
+          </div>
+        )} trigger="hover">
+          <Avatar src={circle.getlocalstorage('avatar_url')} />
+        </Popover>
+    ):(
       <div>
         <Link to={{
           pathname: '/login/',
@@ -28,8 +27,10 @@ let IsLogin = (props) =>(
           登录
             </Link>
       </div>
+    )
   )
 )
+
 
 
 const Header = observer (class Header extends Component {
@@ -60,7 +61,6 @@ const Header = observer (class Header extends Component {
 
   componentDidMount(props) {
     if (circle.getlocalstorage('loginname')){
-      
       this.AxiosUser()
     }
   }

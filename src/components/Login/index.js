@@ -5,6 +5,9 @@ import './islogin.less'
 import { AxiosLogin } from '../../api'
 import * as circle from '../../data/localstorage'
 import { log } from '../../data/utils'
+import { observer } from "mobx-react";
+import { observable, computed } from 'mobx';
+import Store from "../../store/headerlogin"
 
 const openNotificationWithIcon = (type) => {
     notification[type]({
@@ -13,7 +16,7 @@ const openNotificationWithIcon = (type) => {
     });
 };
 
-class Contact extends Component {
+const Contact = observer(class Contact extends Component {
     constructor(props) {
         super();
         this.state = {
@@ -24,7 +27,7 @@ class Contact extends Component {
 
 
     componentDidMount(props){
-        console.log(this.props)
+        // console.log(this.props)
         const { history } = this.props
         if (circle.getlocalstorage('token')){
             history.push('/')
@@ -32,6 +35,8 @@ class Contact extends Component {
                 inputValue: circle.getlocalstorage('token')
             })
         }
+        Store.bbb()
+        
     }
 
     handleSubmit(props){
@@ -45,12 +50,16 @@ class Contact extends Component {
                 circle.setlocalstorage('avatar_url', res.avatar_url)
                 circle.setlocalstorage('id', res.id)
                 circle.setlocalstorage('loginname', res.loginname)
+                Store.login(res.loginname)
                 history.push('/')
             } else { 
                 openNotificationWithIcon('error')
                 circle.clearlocalstorage()
             }
         })
+    }
+    handleSubmit2(props) {
+        Store.aaa()
     }
 
     // 22bf664b-e6bc-4795-bd87-b2a442040e86
@@ -67,6 +76,8 @@ class Contact extends Component {
                     <div className="token">
                         <Input placeholder="输入您的Token" onChange={(e) => this.handleInputChange(e)} onPressEnter={this.handleSubmit} value={this.state.inputValue}/>
                     </div>
+                    <div>{Store.count}</div>
+                    <Button type="primary" onClick={() =>this.handleSubmit2()}>++</Button>
                     <div className="loginbtn">
                         <Button type="primary" onClick={this.handleSubmit}>登录</Button>
                     </div>
@@ -74,6 +85,6 @@ class Contact extends Component {
            </div>
         );
     }
-}
+})
 
 export default Contact;

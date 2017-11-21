@@ -3,23 +3,15 @@ export default [{
     url: '/'
   },
   {
-    title: '全部',
+    title: '关于',
     url: '/all/'
   },
   {
-    title: '精华',
+    title: 'Todo List',
     url: '/good/'
   },
   {
-    title: '问答',
-    url: '/ask/'
-  },
-  {
-    title: '招聘',
-    url: '/job/'
-  },
-  {
-    title: '客户端测试',
-    url: '/dev/'
+    title: '发布主题',
+    url: '/topic/create/'
   },
 ]
