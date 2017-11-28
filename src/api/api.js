@@ -1,13 +1,12 @@
 import axios from 'axios'
 
-const api = 'https://cnodejs.org/api/v1';
-
+axios.defaults.baseURL = 'https://cnodejs.org/api/v1';
 export const get = (path, query) => {
     let url;
     if (query) {
-        url = `${api}/${path}/${query}`;
+        url = `${path}/${query}`;
     } else {
-        url = `${api}/${path}`;
+        url = `${path}`;
     }
 
     return axios(url)
@@ -18,15 +17,18 @@ export const get = (path, query) => {
 export const post = (path, datas, query) => {
     let url;
     if (query) {
-        url = `${api}/${path}?${query}`;
+        url = `${path}?${query}`;
     } else {
-        url = `${api}/${path}`;
+        url = `${path}`;
     }
 
     return axios({
         method: 'post',
         url: url,
-        data: datas
+        data: datas,
+        // transformRequest: [function (data) {
+        //     return data;
+        // }],
     })
         .then(res => res.data)
         .catch(err => window.console.error(err));

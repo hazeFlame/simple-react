@@ -4,7 +4,7 @@ const StoreUser = observable({
     // observable 属性:
     content:{
         data:[],
-        success:''
+        success:null
     },
     count:1,
 

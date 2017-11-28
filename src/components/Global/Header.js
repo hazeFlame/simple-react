@@ -31,8 +31,6 @@ let IsLogin = observer((props) =>(
   )
 )
 
-
-
 const Header = observer (class Header extends Component {
   static PropTypes = {
     items: PropTypes.array.isRequored

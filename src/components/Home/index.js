@@ -12,10 +12,12 @@ import {
 import './home.less'
 import tabs from '../../data/tabs'
 
+
 let Gettags = props => {
     const { tag, top, good } = props
+    
     if (top) {
-        return <Tag color="orange">顶置</Tag>
+        return <Tag color="orange">A</Tag>
     }else if ( good ){
         return <Tag color="blue">精华</Tag>
     } else {
@@ -29,6 +31,7 @@ let Gettags = props => {
             return <Tag color="red">其他</Tag>
         }
     }
+    
 }
 
 let Menudate = props => {

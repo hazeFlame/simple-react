@@ -4,7 +4,6 @@ import { Input, Button, notification  } from 'antd';
 import './islogin.less'
 import { AxiosLogin } from '../../api'
 import * as circle from '../../data/localstorage'
-import { log } from '../../data/utils'
 import { observer } from "mobx-react";
 import { observable, computed } from 'mobx';
 import Store from "../../store/headerlogin"
